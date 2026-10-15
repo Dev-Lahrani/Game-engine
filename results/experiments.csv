@@ -1,86 +1,86 @@
 game,algorithm,depth,simulations,seed,moves,avg_decision_ms,total_nodes,total_pruned,total_sims,result_p1
-connect4,minimax,2,0,42,40,0.0580503,1607,0,0,2
-connect4,minimax,2,0,43,40,0.0528957,1607,0,0,2
-connect4,minimax,2,0,44,40,0.0521343,1607,0,0,2
-connect4,minimax,2,0,45,40,0.0529665,1607,0,0,2
-connect4,minimax,2,0,46,40,0.0646814,1607,0,0,2
-connect4,alphabeta,2,0,42,40,0.0594662,1607,0,0,2
-connect4,alphabeta,2,0,43,40,0.048549,1607,0,0,2
-connect4,alphabeta,2,0,44,40,0.0518084,1607,0,0,2
-connect4,alphabeta,2,0,45,40,0.0492513,1607,0,0,2
-connect4,alphabeta,2,0,46,40,0.0623334,1607,0,0,2
-connect4,alphabeta,4,0,42,39,0.612966,21197,2473,0,1
-connect4,alphabeta,4,0,43,39,0.672864,21197,2473,0,1
-connect4,alphabeta,4,0,44,39,0.759765,21197,2473,0,1
-connect4,alphabeta,4,0,45,39,0.779788,21197,2473,0,1
-connect4,alphabeta,4,0,46,39,0.758539,21197,2473,0,1
-connect4,alphabeta,6,0,42,42,12.1653,376349,59847,0,0
-connect4,alphabeta,6,0,43,42,10.2572,376349,59847,0,0
-connect4,alphabeta,6,0,44,42,11.8062,376349,59847,0,0
-connect4,alphabeta,6,0,45,42,10.6797,376349,59847,0,0
-connect4,alphabeta,6,0,46,42,10.8321,376349,59847,0,0
-connect4,mcts,0,200,42,16,3.98752,3079,0,3200,2
-connect4,mcts,0,200,43,15,4.03553,2843,0,3000,1
-connect4,mcts,0,200,44,26,3.71534,4870,0,5200,2
-connect4,mcts,0,200,45,14,4.13734,2710,0,2800,2
-connect4,mcts,0,200,46,9,4.70351,1635,0,1800,1
-connect4,mcts,0,1000,42,16,22.7537,15070,0,16000,2
-connect4,mcts,0,1000,43,29,16.2545,23557,0,29000,1
-connect4,mcts,0,1000,44,19,16.4814,16542,0,19000,1
-connect4,mcts,0,1000,45,20,21.9016,18812,0,20000,2
-connect4,mcts,0,1000,46,13,29.4768,12296,0,13000,1
-minichess,minimax,2,0,42,27,1.27053,3234,0,0,1
-minichess,minimax,2,0,43,27,1.05935,3234,0,0,1
-minichess,minimax,2,0,44,27,0.953253,3234,0,0,1
-minichess,minimax,2,0,45,27,1.01247,3234,0,0,1
-minichess,minimax,2,0,46,27,0.937553,3234,0,0,1
-minichess,alphabeta,2,0,42,27,0.921673,3234,0,0,1
-minichess,alphabeta,2,0,43,27,0.837351,3234,0,0,1
-minichess,alphabeta,2,0,44,27,0.831537,3234,0,0,1
-minichess,alphabeta,2,0,45,27,0.970949,3234,0,0,1
-minichess,alphabeta,2,0,46,27,0.926052,3234,0,0,1
-minichess,alphabeta,3,0,42,44,4.49166,22681,2912,0,0
-minichess,alphabeta,3,0,43,44,4.2465,22681,2912,0,0
-minichess,alphabeta,3,0,44,44,4.66773,22681,2912,0,0
-minichess,alphabeta,3,0,45,44,4.51711,22681,2912,0,0
-minichess,alphabeta,3,0,46,44,5.77501,22681,2912,0,0
-minichess,alphabeta,4,0,42,41,34.7017,163176,14850,0,1
-minichess,alphabeta,4,0,43,41,26.4269,163176,14850,0,1
-minichess,alphabeta,4,0,44,41,24.6606,163176,14850,0,1
-minichess,alphabeta,4,0,45,41,28.339,163176,14850,0,1
-minichess,alphabeta,4,0,46,41,31.8976,163176,14850,0,1
-minichess,mcts,0,500,42,27,305.673,12916,0,13500,1
-minichess,mcts,0,500,43,14,330.315,6499,0,7000,2
-minichess,mcts,0,500,44,11,407.375,5311,0,5500,1
-minichess,mcts,0,500,45,30,375.809,14622,0,15000,2
-minichess,mcts,0,500,46,31,381.169,14099,0,15500,1
-ludo,expectimax,4,0,42,77,0.00393478,1877,0,0,1
-ludo,expectimax,4,0,43,60,0.00411158,1582,0,0,2
-ludo,expectimax,4,0,44,80,0.0047461,2531,0,0,1
-ludo,expectimax,4,0,45,66,0.00520386,2082,0,0,2
-ludo,expectimax,4,0,46,102,0.0071342,3580,0,0,1
-ludo,expectimax,6,0,42,77,0.0433271,21082,0,0,1
-ludo,expectimax,6,0,43,60,0.0344933,14094,0,0,2
-ludo,expectimax,6,0,44,76,0.0824136,40410,0,0,2
-ludo,expectimax,6,0,45,66,0.0592932,26574,0,0,2
-ludo,expectimax,6,0,46,102,0.0885174,50183,0,0,1
-ludo,alphabeta,4,0,42,77,0.00471138,2098,0,0,1
-ludo,alphabeta,4,0,43,60,0.00521895,1797,0,0,2
-ludo,alphabeta,4,0,44,80,0.0053042,2855,0,0,1
-ludo,alphabeta,4,0,45,66,0.00535818,2341,0,0,2
-ludo,alphabeta,4,0,46,102,0.005892,4026,0,0,1
-ludo,mcts,0,300,42,77,2.47614,7967,0,8400,1
-ludo,mcts,0,300,43,85,2.26227,9207,0,9600,2
-ludo,mcts,0,300,44,104,2.20992,11302,0,11700,2
-ludo,mcts,0,300,45,68,2.32585,6310,0,6900,2
-ludo,mcts,0,300,46,66,2.93388,6901,0,7200,1
-ludo,expectimax vs mcts,4,300,42,77,0.994948,3880,0,2700,1
-connect4,alphabeta vs mcts,4,500,42,15,5.07122,15999,1162,3500,1
-ludo,expectimax vs mcts,4,300,43,85,1.14216,5855,0,4800,2
-connect4,alphabeta vs mcts,4,500,43,9,4.77683,8217,608,2000,1
-ludo,expectimax vs mcts,4,300,44,105,0.758922,7838,0,6300,1
-connect4,alphabeta vs mcts,4,500,44,17,4.25367,15654,1107,4000,1
-ludo,expectimax vs mcts,4,300,45,68,1.88644,5635,0,5700,2
-connect4,alphabeta vs mcts,4,500,45,25,4.16573,20402,1539,6000,1
-ludo,expectimax vs mcts,4,300,46,102,1.37209,8567,0,7200,2
-connect4,alphabeta vs mcts,4,500,46,15,5.06264,15069,1135,3500,1
+connect4,minimax,2,0,42,40,0.0389917,1607,0,0,2
+connect4,minimax,2,0,43,40,0.0355355,1607,0,0,2
+connect4,minimax,2,0,44,40,0.0337898,1607,0,0,2
+connect4,minimax,2,0,45,40,0.0324789,1607,0,0,2
+connect4,minimax,2,0,46,40,0.0326504,1607,0,0,2
+connect4,alphabeta,2,0,42,40,0.0310738,1607,0,0,2
+connect4,alphabeta,2,0,43,40,0.030233,1607,0,0,2
+connect4,alphabeta,2,0,44,40,0.0303469,1607,0,0,2
+connect4,alphabeta,2,0,45,40,0.0309178,1607,0,0,2
+connect4,alphabeta,2,0,46,40,0.032908,1607,0,0,2
+connect4,alphabeta,4,0,42,39,0.428421,21197,2473,0,1
+connect4,alphabeta,4,0,43,39,0.410742,21197,2473,0,1
+connect4,alphabeta,4,0,44,39,0.356924,21197,2473,0,1
+connect4,alphabeta,4,0,45,39,0.331502,21197,2473,0,1
+connect4,alphabeta,4,0,46,39,0.315076,21197,2473,0,1
+connect4,alphabeta,6,0,42,42,5.24123,376349,59847,0,0
+connect4,alphabeta,6,0,43,42,5.24709,376349,59847,0,0
+connect4,alphabeta,6,0,44,42,5.20176,376349,59847,0,0
+connect4,alphabeta,6,0,45,42,5.03774,376349,59847,0,0
+connect4,alphabeta,6,0,46,42,5.09771,376349,59847,0,0
+connect4,mcts,0,200,42,16,2.13483,3079,0,3200,2
+connect4,mcts,0,200,43,15,2.00534,2843,0,3000,1
+connect4,mcts,0,200,44,26,1.56347,4870,0,5200,2
+connect4,mcts,0,200,45,14,2.07541,2710,0,2800,2
+connect4,mcts,0,200,46,9,2.16973,1635,0,1800,1
+connect4,mcts,0,1000,42,16,10.7286,15070,0,16000,2
+connect4,mcts,0,1000,43,29,7.60746,23557,0,29000,1
+connect4,mcts,0,1000,44,19,7.41891,16542,0,19000,1
+connect4,mcts,0,1000,45,20,8.80508,18812,0,20000,2
+connect4,mcts,0,1000,46,13,10.2673,12296,0,13000,1
+minichess,minimax,2,0,42,27,0.509782,3234,0,0,1
+minichess,minimax,2,0,43,27,0.475904,3234,0,0,1
+minichess,minimax,2,0,44,27,0.473878,3234,0,0,1
+minichess,minimax,2,0,45,27,0.43222,3234,0,0,1
+minichess,minimax,2,0,46,27,0.407216,3234,0,0,1
+minichess,alphabeta,2,0,42,27,0.396993,3234,0,0,1
+minichess,alphabeta,2,0,43,27,0.390505,3234,0,0,1
+minichess,alphabeta,2,0,44,27,0.411428,3234,0,0,1
+minichess,alphabeta,2,0,45,27,0.530573,3234,0,0,1
+minichess,alphabeta,2,0,46,27,0.476586,3234,0,0,1
+minichess,alphabeta,3,0,42,44,1.81699,22681,2912,0,0
+minichess,alphabeta,3,0,43,44,1.98661,22681,2912,0,0
+minichess,alphabeta,3,0,44,44,1.82632,22681,2912,0,0
+minichess,alphabeta,3,0,45,44,1.79774,22681,2912,0,0
+minichess,alphabeta,3,0,46,44,1.90869,22681,2912,0,0
+minichess,alphabeta,4,0,42,41,16.8088,163176,14850,0,1
+minichess,alphabeta,4,0,43,41,16.7998,163176,14850,0,1
+minichess,alphabeta,4,0,44,41,17.3191,163176,14850,0,1
+minichess,alphabeta,4,0,45,41,17.1901,163176,14850,0,1
+minichess,alphabeta,4,0,46,41,17.0252,163176,14850,0,1
+minichess,mcts,0,500,42,27,203.22,12916,0,13500,1
+minichess,mcts,0,500,43,14,207.368,6499,0,7000,2
+minichess,mcts,0,500,44,11,240.643,5311,0,5500,1
+minichess,mcts,0,500,45,30,185.205,14622,0,15000,2
+minichess,mcts,0,500,46,31,209.534,14099,0,15500,1
+ludo,expectimax,4,0,42,77,0.00259769,1877,0,0,1
+ludo,expectimax,4,0,43,60,0.00275475,1582,0,0,2
+ludo,expectimax,4,0,44,80,0.00318312,2531,0,0,1
+ludo,expectimax,4,0,45,66,0.00322848,2082,0,0,2
+ludo,expectimax,4,0,46,102,0.00353658,3580,0,0,1
+ludo,expectimax,6,0,42,77,0.0267646,21082,0,0,1
+ludo,expectimax,6,0,43,60,0.023483,14094,0,0,2
+ludo,expectimax,6,0,44,76,0.0522657,40410,0,0,2
+ludo,expectimax,6,0,45,66,0.0395697,26574,0,0,2
+ludo,expectimax,6,0,46,102,0.0456125,50183,0,0,1
+ludo,alphabeta,4,0,42,77,0.00236362,2098,0,0,1
+ludo,alphabeta,4,0,43,60,0.00246987,1797,0,0,2
+ludo,alphabeta,4,0,44,80,0.00293635,2855,0,0,1
+ludo,alphabeta,4,0,45,66,0.00294964,2341,0,0,2
+ludo,alphabeta,4,0,46,102,0.00323599,4026,0,0,1
+ludo,mcts,0,300,42,77,1.39983,7967,0,8400,1
+ludo,mcts,0,300,43,85,1.24333,9207,0,9600,2
+ludo,mcts,0,300,44,104,1.14385,11302,0,11700,2
+ludo,mcts,0,300,45,68,1.04482,6310,0,6900,2
+ludo,mcts,0,300,46,66,1.56386,6901,0,7200,1
+ludo,expectimax vs mcts,4,300,42,77,0.365885,3880,0,2700,1
+connect4,alphabeta vs mcts,4,500,42,15,2.29698,15999,1162,3500,1
+ludo,expectimax vs mcts,4,300,43,85,0.71644,5855,0,4800,2
+connect4,alphabeta vs mcts,4,500,43,9,3.09754,8217,608,2000,1
+ludo,expectimax vs mcts,4,300,44,105,0.457483,7838,0,6300,1
+connect4,alphabeta vs mcts,4,500,44,17,2.43032,15654,1107,4000,1
+ludo,expectimax vs mcts,4,300,45,68,1.18629,5635,0,5700,2
+connect4,alphabeta vs mcts,4,500,45,25,2.31043,20402,1539,6000,1
+ludo,expectimax vs mcts,4,300,46,102,0.759455,8567,0,7200,2
+connect4,alphabeta vs mcts,4,500,46,15,2.49608,15069,1135,3500,1
