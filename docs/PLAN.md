@@ -102,3 +102,159 @@ records the analysis notes for the experiment.
 > games are short. The experiment isolates these effects by
 > measuring time, nodes, prunes and simulations per decision across
 > a fixed matrix of games, depths and seeds.
+
+---
+
+# PLAN v2 — Human vs AI, more algorithms, more games, step-by-step frontend
+
+## 1. Goal
+
+Extend the harness from *batch experiment mode only* to a **playable frontend** with:
+
+- human vs AI matches, play-by-play, one move shown at a time
+- more algorithms beside Minimax / Alpha-Beta / Expectimax / MCTS
+- more games than Connect 4 / MiniChess / Ludo
+- a step-by-step board renderer that replays every move
+
+Keep the existing experiment matrix and CLI intact. This is v2, not a rewrite of v1 research mode.
+
+## 2. Scope for the first v2 cycle
+
+### 2.1 Human vs AI
+
+- New CLI: `lab play-human <game> <algo> [depth] [sims]`
+- AI moves, human moves via stdin / interactive prompt
+- Need explicit **whose turn** display, move prompt, and move validation
+- The current `game_ai_lab::main()` play loop only does AI-vs-AI; AI-vs-AI and human-vs-AI should be separate paths
+
+Critical points:
+- Ludo human turns must show the dice roll and ask for a token choice, not just any move
+- Chance-phase games need AI to announce the dice outcome and then ask the human for the token move
+- Interactive prompts must be robust: retry on illegal move, allow `quit` or `undo` if we add that later
+
+### 2.2 More algorithms
+
+Add these to `selectMove()` dispatch and to experiment matrix:
+
+- **Negamax** (same core idea as minimax but sign-flipped value). Valid for deterministic games; must still not be used blindly for Ludo because of roll-6-again.
+- **Iterative Deepening Alpha-Beta** — run alpha-beta at depth 1, 2, 3…; useful for time control in human play because we can stop after a time budget and keep the last best move.
+- **Monte Carlo rollouts with policy bias** — beyond pure UCT, try a tiny heuristic tweak or move ordering for rollout start; keep it optional.
+- **Opening book / simple transposition caching** — start with a small in-memory transposition table for exact-repeat states; keep it minimal.
+
+Implementation rule:
+- Algorithms live under `include/game_engine/` as separate headers
+- One shared C++ interface: pick a move given state + params
+- Metrics collection stays uniform so new algorithms still produce comparable rows
+
+### 2.3 More games
+
+Pick a staged set so v2 grows without exploding.
+
+Stage A (fast wins):
+- **Tic-Tac-Toe** — tiny, good sanity check for human play, deterministic, easy terminal and draw detection
+- **Connect 5 or Connect 6** — same family as Connect 4, slightly bigger, easy rules
+
+Stage B (real classic games):
+- **Checkers (8×8 English Draughts)** — captures, king promotion, forced captures
+- **Small Othello/Reversi** — e.g. 6×6 or full 8×8; evaluation matters; good next test for heuristics
+- **Nim (multiple heaps)** — simple, deterministic, non-search contrast (optimal = nim-sum), good didactic game
+- **Mancala / Kalah variant** — captures + extra-turn mechanics, deterministic
+
+Stage C (stretch):
+- **Full Chess** — big, needs careful move generation, castling, en passant, promotion, repetition/50-move draws, and cutoffs well beyond 200 plies
+- **Backgammon-lite** — stochastic, bigger state, bear-off, entry/hitting; keep without doubling cube for v2
+
+Game design rule:
+- Every new game must implement the same `GameState` shape: `reset()`, `getMoves()`, `applyMove()`, `toString()` for frontend, `isTerminal()`/`winner()`
+- Deterministic games can use minimax/alphabeta/negamax/ICPV; stochastic games need expectimax or MCTS with dice sampling
+
+### 2.4 Step-by-step frontend
+
+Two-tier approach: first a **self-contained local frontend**, then optionally a hosted web UI.
+
+Option A — simplest, fits research repo:
+
+- Add a `lab play-human --tee <out.json>` mode that writes every move as structured JSONL
+- Add a small static frontend that reads that JSONL and replays the game step by step
+- Frontend can be:
+  - a browser page with inline JS + SVG/HTML boards, or
+  - a tiny local HTTP server that serves the static files
+
+Recommended minimal frontend features:
+- Show board state for current ply
+- Show whose turn, last move text, last dice roll if any
+- Step forward/backward through the replay
+- Highlight illegal vs legal moves for the human when it’s their turn
+- Show search stats for AI moves: time, nodes, prunes, sims if applicable
+
+Option B — richer but more work:
+
+- A WebSocket or local API where the C++ process streams move events to a browser client
+- Real-time AI move computation shown with a spinner or progress
+- Play-by-play analytics per ply
+
+This project currently has **no web server stack**. Adding one means either:
+- a small C++ HTTP server, or
+- a sidecar web app talking to the C++ binary over JSON/CLI
+
+For v2 first cycle, Option A is the least risky and keeps dependencies near zero.
+
+## 3. Human vs AI command design
+
+Concrete proposal:
+
+```
+./build/lab play-human <game> <algo> [depth] [sims] [--replay out.json]
+```
+
+Example flows:
+
+- `./build/lab play-human connect4 alphabeta 4`
+  - AI is player 1 or 2, human is the other
+  - Human enters moves as column numbers for Connect 4
+  - Board printed after each human move and after each AI move
+- `./build/lab play-human ludo expectimax 4`
+  - AI announces dice roll
+  - Human chooses which token to move
+- `./build/lab play-human tictactoe minimax 2`
+  - Human enters `row col`
+
+Important UX details:
+- Show legal moves for the human each turn
+- Reject illegal input and reprint legal moves
+- Print the game result at the end
+- Optionally print per-move AI stats inline
+
+## 4. Metrics to keep for human games
+
+For a human-vs-AI game, keep both:
+
+- **AI move metrics** same as experiment mode: time, nodes, pruned, sims
+- **Human move log**: ply, player, move, time spent by human if we can measure it, legal moves shown
+
+This lets us later compare human decision patterns vs AI decision patterns if we want.
+
+## 5. Risk list
+
+- Interactive human play is harder to automate in tests; need careful CLI parsing and manual demo verification
+- Frontend adds new files; keep them out of the core research build if we want to keep v1 small
+- More games mean more rule bugs; add per-game unit tests early
+- Iterative deepening and transposition table add statefulness; keep them optional and well isolated
+- Full chess is large; treat as optional later stage, not first v2 goal
+
+## 6. Suggested v2 rollout order
+
+1. Add **Tic-Tac-Toe** as a new game and get human-vs-AI working there first
+2. Add **Iterative Deepening Alpha-Beta** as the main human-friendly AI (time-controlled, interruptible)
+3. Add **Negamax** for deterministic games
+4. Add **play-human** CLI with move replay JSON export
+5. Add **small static frontend** to replay the JSON and show step-by-step boards
+6. Add **Checkers / Nim / Othello small board** next
+7. Keep **full chess** and **Backgammon** as later stretch goals
+
+## 7. What this needs from us
+
+- Decide which frontend style we want first: static replay page vs live web app
+- Decide whether we keep everything in one repo or separate the frontend into its own folder/app
+- Decide which game is first after Connect 4 for human play: Tic-Tac-Toe or Checkers
+- Decide which new algorithm is highest priority: Iterative Deepening Alpha-Beta, Negamax, or both
