@@ -67,13 +67,56 @@ Full mapping + analysis notes live in `docs/PLAN.md`.
 
 ## Games
 
+### Implemented now (in this repo)
+
 | Game | Type | Branching | Length | Win condition / rules |
 |------|------|-----------|--------|-----------------------|
 | **Connect 4** | Deterministic | ~7 | ~30–45 plies | 7×6 board, first to connect 4 wins, full board = draw |
 | **MiniChess** | Deterministic | ~7–15 | ~30–45 plies | 5×5 Gardner minichess (no castling / en passant / double step, promote to queen), 200-ply cap, stalemate = draw, bare kings = draw |
 | **Ludo** | Stochastic | 2 tokens × 6 dice | ~60–90 plies | 24-cell shared ring (entry cells safe), 4-cell home column, exact roll to finish, leave base only on 6, roll 6 grants an extra turn, capture on non-safe cells |
 
-Game-characteristics matrix:
+Game-characteristics matrix (implemented now):
+
+| Characteristic | Connect 4 | MiniChess | Ludo |
+|---|---|---|---|
+| Deterministic? | Yes | Yes | **No** (dice) |
+| Chance nodes | none | none | every other ply |
+| Initial branching | 7 | 7 (5 pawn + 2 knight) | 2 (after a 6) × 6 dice |
+| Terminal test | 4-in-a-row / full board | checkmate / stalemate / 200-ply cap / bare kings | all tokens home |
+
+---
+
+### Future games (extend the harness)
+
+All of these reuse the existing `GameState` interface — add `<game>State::reset()`, `getMoves()`, `applyMove()`, `toString()`, `isTerminal()`/`winner()`, then a heuristic in its `makeGame()` branch and one or two lines in `selectMove()` and `defaultMatrix()`. Keep experiments short via `maxMoves` and an easy heuristic, or the tree-search rows will time out.
+
+| Game | Type | Branching / state size | Why add it | Implementation catch |
+|------|------|------------------------|------------|----------------------|
+| **Tic-Tac-Toe** | Deterministic | 3×3, trivial full enumeration | Smallest full tree — good first validation of harness, can reach terminal quickly, clear draw/forced-win structure | 9 moves only; depth needs capping to avoid no-ops |
+| **Checkers (English Draughts, 8×8)** | Deterministic | bigger tree, captures + king promotion + forced captures | Classic search-testbed game; lots of forced-move structure, direct comparison vs Connect 4 | capture loops + forced capture rule; king promotion on reaching far row; draw by repetition or stale-position rules |
+| **Full Chess (standard, 8×8)** | Deterministic | extremely large; branching grows fast | Ultimate tree-search benchmark and the textbook case where pure Minimax/Alpha-Beta + hand heuristic is the old-school engine approach (pre-AlphaZero) | castling, en passant, double-step, promotion to many pieces, 50-move and repetition draws; 200-ply cap clearly not enough — need bigger depth cap + good terminal/repetition tracking |
+| **Nim (multiple heaps)** | Deterministic | small state, solved by nim-sum XOR (Grundy) | Adds a **non-search theorem** contrast: optimal move is a math property, not tree depth — shows where Alpha-Beta/MCTS are overkill | trivial rules, but interesting vs your tree-search baseline: do searches find nim-sum-optimal move? |
+| **Mancala / Kalah (small variant)** | Deterministic + capture + extra-turn mechanics | small–medium branching | Adds "move order and extra-turn" dynamics beyond Connect 4 | last seed in empty own bowl captures, last seed in store = extra turn |
+| **Othello / Reversi (small board, e.g. 6×6 or 8×8)** | Deterministic | branching grows with board; evaluation-driven | Good next step when heuristics matter more than depth — Alpha-Beta rewards decent evaluation | flipping chains, corner/edge evaluation, pass rules |
+| **Backgammon (lite / without doubling cube)** | Stochastic + chance + race | chance nodes (dice) like Ludo, but bigger state + bear-off | Extends the **stochastic** side beyond Ludo; another Expectimax/MCTS-vs-dice case | roll-6-again is rarer; hit/entry rules; bear-off rules; simulation can be long |
+| **Bar games: Nine Men's Morris, Mancala other variants, Connect-5/6** | Deterministic or simple | mostly small | Easy playgrounds for extending the same codebase | keep board small or cap depth |
+| **Single-player puzzles (8-puzzle / 15-puzzle) — restricted** | Single-player, not adversarial | state space large | Only if you explicitly want a **single-agent search** contrast; README says no Dijkstra/A* currently | would need A*/IDA* or MCTS planner, not two-player minimax — adds a new theme |
+
+Recommendation for a next cycle: **Tic-Tac-Toe** (smallest, sanity-check harness), then **Checkers or Othello** (real larger deterministic game) and/or **Nim** (theory contrast). Keep full Chess as a stretch goal, not a first extension.
+
+---
+
+Game-characteristics matrix (all listed games):
+
+| Characteristic | Connect 4 | MiniChess | Ludo | Tic-Tac-Toe | Checkers | Full Chess | Nim | Othello | Backgammon |
+|---|---|---|---|---|---|---|---|---|---|
+| Deterministic? | Yes | Yes | **No** (dice) | Yes | Yes | Yes | Yes | Yes | **No** (dice) |
+| Chance nodes | none | none | every other ply | none | none | none | none | none | every other ply |
+| Typical branching | ~7 | ~7–15 | 2 × 6 dice | ≤9 | medium (captures) | very large | heap-dependent | medium | 2 × 6 dice |
+| State space | moderate | moderate (5×5) | moderate (24+home) | tiny | large | huge | very small | medium–large | large |
+| Known status | solved (7×6) | small research game | small stochastic sim | solved (trivial) | deep, not fully solved | huge, solved at GM+ level with search + eval | solved by math (nim-sum) | strong solved variants exist | large, stochastic |
+| Fits harness model? | yes (now) | yes (now) | yes (now) | yes (easy) | yes (medium) | yes (heavy) | yes (easy) | yes (medium) | yes (stochastic) |
+
 
 | Characteristic | Connect 4 | MiniChess | Ludo |
 |---|---|---|---|
